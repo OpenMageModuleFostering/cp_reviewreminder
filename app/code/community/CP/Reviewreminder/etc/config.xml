@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category    Commerce Pundit Technologies
+ * @package     CP_Reviewreminder
+ * @copyright   Copyright (c) 2016 Commerce Pundit Technologies. (http://www.commercepundit.com)    
+* @author   <<Ravi Soni>>    
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <CP_Reviewreminder>
+            <version>1.0.0</version>
+        </CP_Reviewreminder>
+    </modules>
+    
+    <frontend>
+        <routers>
+            <cp_reviewreminder>
+                <use>standard</use>
+                <args>
+                    <module>CP_Reviewreminder</module>
+                    <frontName>reviewreminder</frontName>
+                </args>
+            </cp_reviewreminder>
+        </routers>
+        
+        <events>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <cp_reviewreminder_save_reviewreminder_information>
+                        <class>cp_reviewreminder/observer</class>
+                        <method>addReviewReminderInformation</method>
+                    </cp_reviewreminder_save_reviewreminder_information>
+                </observers>
+            </checkout_onepage_controller_success_action>
+            <review_save_after>
+                <observers>
+                    <cp_reviewreminder_review_save_after>
+                        <class>cp_reviewreminder/observer</class>
+                        <method>reviewSaveAfter</method>
+                    </cp_reviewreminder_review_save_after>
+                </observers>
+            </review_save_after>
+        
+            <!-- <controller_action_predispatch_checkout_cart_add>
+                <observers>
+                    <cp_reviewreminder_checkout_cart_add>
+                        <class>cp_reviewreminder/observer</class>
+                        <method>sendReviewReminder</method>
+                    </cp_reviewreminder_checkout_cart_add>
+                </observers>
+            </controller_action_predispatch_checkout_cart_add> -->
+			
+        </events>
+    </frontend>
+    
+    <global>
+        <models>
+            <cp_reviewreminder>
+                <class>CP_Reviewreminder_Model</class>
+                <resourceModel>reviewreminder_resource</resourceModel>
+            </cp_reviewreminder>
+            <reviewreminder_resource>
+                <class>CP_Reviewreminder_Model_Resource</class>
+                <entities>
+                    <reviewreminder>
+                        <table>cp_reviewreminder</table>
+                    </reviewreminder>
+                </entities>
+            </reviewreminder_resource>
+        </models>
+        <helpers>
+            <cp_reviewreminder>
+                <class>CP_Reviewreminder_Helper</class>
+            </cp_reviewreminder>  
+        </helpers>
+        <blocks>
+            <cp_reviewreminder>
+                <class>CP_Reviewreminder_Block</class>
+            </cp_reviewreminder>
+        </blocks>
+        
+         <!-- Setup resource -->
+        <resources>
+            <cp_reviewreminder_setup>
+                <setup>
+                    <module>CP_Reviewreminder</module>
+                    <class>CP_Reviewreminder_Model_Resource_Setup</class>
+                </setup>
+            </cp_reviewreminder_setup>
+        </resources>
+        
+        <!-- Set email template for reminder -->
+        <template>
+            <email>
+                <!-- name is same as in system.xml file -->
+                <review_reminder_general_settings_email_template translate="label" module="cp_reviewreminder">
+                    <label>Product review reminder</label>
+                    <file>cp_reviewreminder.html</file>
+                    <type>html</type>
+                </review_reminder_general_settings_email_template>
+            </email>
+        </template>
+    </global>
+    
+    <!-- Adminhtml layout xml configuration -->
+    <adminhtml>
+        <layout>
+            <updates>
+                <cp_reviewreminder>
+                    <file>cp_reviewreminder.xml</file>
+                </cp_reviewreminder>
+            </updates>
+        </layout>
+    </adminhtml>
+    
+    <!-- Admin router configuration-->
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <cp_reviewreminder after="Mage_Adminhtml">CP_Reviewreminder_Adminhtml</cp_reviewreminder>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    
+    <default>
+        <!-- Set default values of system configuration varables -->
+        <review_reminder>
+            <status>
+                <extension_enable>1</extension_enable>
+            </status>
+            <general_settings>
+                <order_status>complete</order_status>
+                <number_of_days>5</number_of_days>
+                <sender_email_identity>general</sender_email_identity>
+                <email_template>review_reminder_general_settings_email_template</email_template>
+            </general_settings>
+        </review_reminder>
+    </default>
+    <crontab>
+        <jobs>
+            <cp_reviewreminder>
+                <schedule>
+                    <cron_expr>0 6 * * 1</cron_expr>
+                    <!-- minute(0-59) Hour(0-23) day of month(1-31) month(1-12) day of week(0-7 0 or 7 is Sunday)-->
+                </schedule>
+                <run>
+                    <model>cp_reviewreminder/observer::sendReviewReminder</model>
+                </run>
+            </cp_reviewreminder>
+        </jobs>
+    </crontab>
+</config>
+

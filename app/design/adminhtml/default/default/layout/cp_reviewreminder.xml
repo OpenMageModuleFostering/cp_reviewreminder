@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category    Commerce Pundit Technologies
+ * @package     CP_Reviewreminder
+ * @copyright   Copyright (c) 2015 Commerce Pundit Technologies. (http://www.commercepundit.com)    
+* @author   <<Ravi Soni>>    
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_managereminders_index>
+        <reference name="content">
+             <block type="cp_reviewreminder/adminhtml_reviewreminder" name="reviewreminder.grid.container" />
+        </reference>
+    </adminhtml_managereminders_index>
+    <adminhtml_closedreminders_index>
+        <reference name="content">
+             <block type="cp_reviewreminder/adminhtml_closedreminder" name="closedreminder.grid.container" />
+        </reference>
+    </adminhtml_closedreminders_index>
+</layout>
