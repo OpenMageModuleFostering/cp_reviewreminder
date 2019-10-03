@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/CP_Reviewreminder",
+    "name": "openmage-module-fostering\/cp_reviewreminder",
     "type": "magento-module",
-    "license": "OSL-v3.0",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "Review Reminder extension by Commerce Pundit will help you send product review notification to website user after the purchase product. ",
     "authors": [
